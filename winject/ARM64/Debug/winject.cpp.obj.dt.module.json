@@ -1,0 +1,14 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "ARM64\\Debug\\winject.obj",
+            "outputs": [
+                "ARM64\\Debug\\winject.cpp.obj.dt.module.json",
+                "ARM64\\Debug\\winject.cpp.obj.dt.d.json"
+            ],
+            "requires": []
+        }
+    ]
+}

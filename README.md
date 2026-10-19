@@ -8,4 +8,4 @@ how to use
 3. Run the exe with the \Windows\Temp\dll.dll argument
 4. Profit
 
-I am not responsible for the misuse or abuse of this program. Use on systems you have authorization to do so.
+I am not responsible for the misuse or abuse of this tool. Use ONLY on systems you have authorization to do so. 

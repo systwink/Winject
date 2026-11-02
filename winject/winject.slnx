@@ -1,0 +1,8 @@
+<Solution>
+  <Configurations>
+    <Platform Name="ARM64" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="winject.vcxproj" Id="9e90a512-5f19-4581-b241-a19b5e3677cc" />
+</Solution>

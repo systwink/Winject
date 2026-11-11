@@ -1,6 +1,15 @@
-# Winject
-Windows 11 Systemwide / Single Process DLL Injection Tool
+# Winject-Auto
+
 
 - obtains SeDebugPrivilege
-- injects DLL systemwide or into single process(by pid)
+- injects win32.dll into all processe
+
+
+
+
+
+
+win32.dll
+
+www.github.com/systwink/win32dl
   

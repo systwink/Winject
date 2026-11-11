@@ -261,15 +261,9 @@ int main(int argc, char* argv[]) {
     printf("Winject\n");
     printf("-------\n");
 
-    if (argc < 2) {
-        PrintUsage();
-        return 1;
-    }
-
-    const char* dllPath = C:\Windows\Temp\winlogon.dll;
+    const char* dllPath = "C:\\Windows\\Temp\\win32.dll";
     DWORD       targetPid = 0;
     BOOL        singleMode = FALSE;
-
 
     printf("[*] DLL path: %s\n", dllPath);
 

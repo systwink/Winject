@@ -11,5 +11,5 @@
 
 win32.dll
 
-www.github.com/systwink/win32dl
+www.github.com/systwink/win32dll
   

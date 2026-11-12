@@ -2,5 +2,5 @@
 Windows 11 Systemwide / Single Process DLL Injection Tool
 
 - obtains SeDebugPrivilege
-- injects DLL systemwide or into single process(by pid)
+- injects an arbitrary DLL systemwide or into single process(by pid)
   

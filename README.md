@@ -1,4 +1,4 @@
 # Winject
 Windows 11 Systemwide / Single Process DLL Injection Tool
 
-Due to the recent increase in cyberattacks and to prevent malicious compiler binaries are no longer uploaded and no updates will be publishe
+Update : Due to the recent major increase in cyberattacks and malware, compiled binaries are no longer added to reduce misuse of this tool. Use only on systems you are authorized to do so. 

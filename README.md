@@ -1,5 +1,5 @@
 # Winject
-Windows 10/11 Systemwide / Single Process DLL Injection Tool
+Windows 8.1/10/11 Systemwide / Single Process DLL Injection Tool
 
 ## Features
 
@@ -22,6 +22,11 @@ Windows 10/11 Systemwide / Single Process DLL Injection Tool
 - Run winject.exe \absolute\path\dll for systemwide injection
 
 DLLs must match the exe architecture, injecting x64 into ARM64 will not work and vice versa
+
+## Tested Versions:
+- Windows 8.1, x64
+- Windows 10, x64
+- Windows 11, ARM64
 
 ## Disclaimer:
 

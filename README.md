@@ -5,7 +5,7 @@ Windows 8.1/10/11 Systemwide / Single Process DLL Injection Tool
 
 - Single Process Injection injects the DLL into individual processes specified by their PID
 - Systemwide Injection injects the DLL into most running processes in parallel
-- Obtains SeDebugPrivileges so you can inject into nearly any process(PPL-protected processes cannot not be injected into)
+- Obtains SeDebugPrivilege to enable injection into nearly any process(PPL-protected processes cannot not be injected into)
 
 
  ## How to build:

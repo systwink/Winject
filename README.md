@@ -1,16 +1,17 @@
 # Winject
 Windows 10/11 Systemwide / Single Process DLL Injection Tool
 
-## Injection Methods
+## Features
 
-- Single Process Injection into individual processes
-- Systemwide Injection into most running processes
-- Either can inject into nearly any process
+- Single Process Injection injects the DLL into individual processes specified by their PID
+- Systemwide Injection injects the DLL into most running processes in parallel
+- Obtains SeDebugPrivileges so you can inject into nearly any process(PPL-protected processes cannot not be injected into)
+
 
  ## How to build:
 
   - Download winject folder
-  - Open the solution in Visual
+  - Open the solution in Visual Studio
   - Build it as either x64 or ARM64 depending on the platform
   - Boom
  

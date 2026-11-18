@@ -22,7 +22,7 @@ Windows 10/11 Systemwide / Single Process DLL Injection Tool
 
 DLLs must match the exe architecture, injecting x64 into ARM64 will not work and vice versa
 
-## Warning:
+## Disclaimer:
 
 This tool is provided for educational purposes only. No compiled binaries will be added to prevent abuse. By using this code, you take full responsibility for how it is used.
 The developer is not responsible for any misuse, legal consequences or damages.

@@ -192,7 +192,7 @@ void InjectSinglePID(DWORD pid, const char* dllPath) {
 
 // ─── Systemwide parallel inject ───────────────────────────────────────────────
 
-#define MAX_PROCESSES 512
+#define MAX_PROCESSES 1024
 
 void InjectAllProcesses(const char* dllPath) {
     printf("[*] Targeting all processes (systemwide)\n");

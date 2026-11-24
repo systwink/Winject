@@ -1,6 +1,8 @@
 # Winject
 Windows 8.1/10/11 Systemwide / Single Process DLL Injection Tool
 
+- Written fully in C
+
 ## Features
 
 - Single Process Injection injects the DLL into individual processes specified by their PID

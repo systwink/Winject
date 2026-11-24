@@ -2,6 +2,7 @@
 Windows 8.1/10/11 Systemwide / Single Process DLL Injection Tool
 
 - Written fully in C
+- Should support Vista-11(8.1-11 tested)
 
 ## Features
 

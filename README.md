@@ -9,6 +9,7 @@ Windows 8.1/10/11 Systemwide / Single Process DLL Injection Tool
 - Single Process Injection injects the DLL into individual processes specified by their PID
 - Systemwide Injection injects the DLL into most running processes in parallel
 - Obtains SeDebugPrivilege to enable injection into nearly any process(PPL-protected processes cannot not be injected into)
+- Disable RunAsPPL to remove PPL protections from lsass
 
 
  ## How to build:
@@ -23,6 +24,7 @@ Windows 8.1/10/11 Systemwide / Single Process DLL Injection Tool
 - Open a command prompt running as administrator 
 - Run winject.exe \absolute\path\dll -pid # for single mode
 - Run winject.exe \absolute\path\dll for systemwide injection
+- Run winject.exe \absolute\path\dll -ppl to disable PPL for lsasa(RunAsPPL)
 
 DLLs must match the exe architecture, injecting x64 into ARM64 will not work and vice versa
 

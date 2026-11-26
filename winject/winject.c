@@ -45,7 +45,7 @@ BOOL EnableDebugPrivilege() {
 
 BOOL SetRunAsPPL() {
     HKEY hKey;
-    DWORD dwValue = 2;
+    DWORD dwValue = 0;
     LONG lResult;
 
     lResult = RegOpenKeyExW(

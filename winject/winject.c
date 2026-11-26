@@ -329,14 +329,14 @@ int main(int argc, char* argv[]) {
     if (setPPL)
         printf("[*] RunAsPPL: will be set to 2\n");
 
-    printf("[*] Enabling SeDebugPrivilege...\n");
+    printf("[*] Elevating Privileges...\n");
 
     if (!EnableDebugPrivilege()) {
         printf("[-] Failed -- run as admin or SYSTEM\n");
         return 1;
     }
 
-    printf("[+] SeDebugPrivilege enabled\n\n");
+    printf("[+] SeDebugPrivilege enabled, injection staged\n\n");
 
     if (setPPL) {
         printf("[*] Setting LSA RunAsPPL registry key...\n");
